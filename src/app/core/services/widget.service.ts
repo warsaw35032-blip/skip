@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { lastValueFrom, timeout } from 'rxjs';
 import { PluginConfigClientService } from './plugin-config-client.service';
 import type { IWidgetSvcConfig } from '../interfaces/widgets-interface';
+// import { WidgetSailChartComponent } from '../../widgets/widget-sail-chart/widget-sail-chart.component';
+
 // Widget view components are NOT imported statically. They are loaded on demand through the lazy
 // loader map below so each widget's code (and its heavy vendor deps: chart.js, d3, canvas-gauges,
 // etc.) ships in its own chunk and is only downloaded when that widget type is actually placed on a
@@ -649,6 +651,19 @@ export class WidgetService {
       // migration (#592).
       selector: 'widget-windtrends-chart',
       componentClassName: 'WidgetWindTrendsGraphComponent'
+    },
+    {
+      name: 'Sail Chart',
+      description: 'TODO: Add description. Description is found in the item related to your widget as an item in array _widgetDefinition, found in file src/app/core/services/widget.service.ts. In this file you can also set the widget icon and other properties.',
+      icon: 'placeholder-icon', // TODO replace placeholder icon
+      minWidth: 1,
+      minHeight: 1,
+      defaultWidth: 4,
+      defaultHeight: 6,
+      category: 'Racing',
+      requiredPlugins: [],
+      selector: 'widget-sail-chart',
+      componentClassName: 'WidgetSailChartComponent'
     },
   ];
 

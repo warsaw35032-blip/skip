@@ -1,0 +1,61 @@
+<widget-title [text]="runtime.options()?.displayName" [color]="titleColor()"/>
+
+<div class="telemetry-bar">
+  <div class="telemetry-item">
+    <span class="label">TWA:</span>
+    <span class="value">{{trueWindAngle() | number:'1.0-1' }}°</span>
+  </div>
+  <div class="telemetry-item">
+    <span class="label">TWS:</span>
+    <span class="value">{{trueWindSpeed() | number:'1.0-1' }}Kts</span>
+  </div>
+</div>
+
+<div class="canvas-container">
+  <svg class="sail-chart-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
+    <rect x="40" y="30" width="330" height="210" class="chart-bg" />
+
+    <g class="matrix-grid-cells">
+      @for (row of sailChartMatrix.slice(1); track $index; let rIdx = $index){
+        @for (cell of row.slice(1); track $index; let cIdx = $index) {
+          <rect
+            [attr.x]="40 + cIdx * (330 / (row.length - 1))"
+            [attr.y]="30 + rIdx * (210 / (sailChartMatrix.length - 1))"
+            [attr.width]="330 / (row.length - 1)"
+            [attr.height]="210 / (sailChartMatrix.length - 1)"
+            class="matrix-cell"
+            [style.fill]="getCellColor(cell)"
+          />
+        }
+      }
+    </g>
+
+    <g class="grid-lines">
+      <line x1="40" y1="65" x2="370" y2="65" class="grid-line" />
+      <line x1="40" y1="115" x2="370" y2="115" class="grid-line" />
+      <line x1="40" y1="165" x2="370" y2="165" class="grid-line" />
+      <line x1="40" y1="215" x2="370" y2="215" class="grid-line" />
+
+      <line x1="105" y1="30" x2="105" y2="240" class="grid-line" />
+      <line x1="170" y1="30" x2="170" y2="240" class="grid-line" />
+      <line x1="235" y1="30" x2="235" y2="240" class="grid-line" />
+      <line x1="300" y1="30" x2="300" y2="240" class="grid-line" />
+    </g>
+
+    <g class="crosshair-group">
+      <line [attr.x1]="40" [attr.y1]="crosshairY()" [attr.x2]="370" [attr.y2]="crosshairY()" class="crosshair-line horizontal" />
+      <line [attr.x1]="crosshairX()" [attr.y1]="30" [attr.x2]="crosshairX()" [attr.y2]="240" class="crosshair-line vertical" />
+      <circle [attr.cx]="crosshairX()" [attr.cy]="crosshairY()" r="4.5" class="crosshair-node"/>
+    </g>
+
+    @if (sailChartMatrix.length > 0) {
+    <text x="45" y="275" class="matrix-status">
+      Matrix Loaded: {{ sailChartMatrix.length - 1}} rows active (Step: {{ stepSize }}°)
+    </text>
+    } @else {
+    <text x="45" y="275" class="matrix-status">
+      Loading CSV Matrix...
+    </text>
+    }
+  </svg>
+</div>

@@ -84,7 +84,7 @@ export class WidgetHeelGaugeComponent implements AfterViewInit {
         path: 'self.navigation.attitude',
         source: 'default',
         pathType: 'number',
-        isPathConfigurable: false,
+        isPathConfigurable: true,
         convertUnitTo: 'deg',
         showConvertUnitTo: false,
         pathRequired: true
